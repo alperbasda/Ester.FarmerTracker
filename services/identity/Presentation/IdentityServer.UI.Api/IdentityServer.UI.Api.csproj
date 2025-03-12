@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>876bf817-9451-4522-a1c4-838fae6fe843</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <IsPackable>true</IsPackable>
+    <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".template.config\**" />
+    <Content Remove=".template.config\**" />
+    <EmbeddedResource Remove=".template.config\**" />
+    <None Remove=".template.config\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Core.WebHelper" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Notification\Notification.csproj" />
+    <ProjectReference Include="..\..\CQRS\IdentityServer.Persistence\IdentityServer.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

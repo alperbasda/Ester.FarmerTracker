@@ -1,0 +1,100 @@
+﻿@using Ester.FarmetTracker.Common
+@using Ester.FarmetTracker.Common.Settings
+@using Ester.FarmetTracker.UI.Web.Infrastructures.FieldService.Models.Fields;
+
+@model ListModel<ListFieldResponse>
+
+<div class="table-responsive">
+    <table class="dynamic-table table table-hover table-row-bordered gy-5 gs-7">
+        <tr>
+            <th>
+                <b>
+                    <a href="#/">
+                        Tarla Adı &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Kordinat &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Metrekare &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Şehir &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Ekin &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Atılan Gübre &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Kayıt T. &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+                <b>
+                    <a href="#/">
+                        Güncelleme T. &nbsp;
+                    </a>
+                </b>
+            </th>
+            <th>
+
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr class="item_wrapper">
+                <td>@item.Name</td>
+                <td>@item.Coordinate</td>
+                <td>@item.SquareMeter</td>
+                <td>@item.City</td>
+                <td>@item.CurrentCropName</td>
+                <td>@item.CurrentTotalFertilizerAmount</td>
+                <td>@item.CreatedTime</td>
+                <td>@item.UpdatedTime</td>
+                <td>
+                    <div class="d-flex justify-content-around">
+
+                        <a href="@Url.Action("Update","Field")?id=@item.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Düzenle">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        &nbsp;
+                        <a class="delete-link" href="@Url.Action("Delete","Field")?id=@item.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Sil">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>

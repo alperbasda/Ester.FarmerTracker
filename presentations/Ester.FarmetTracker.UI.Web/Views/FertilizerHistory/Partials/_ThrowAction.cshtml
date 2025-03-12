@@ -1,0 +1,25 @@
+﻿@using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.FertilizerHistories
+
+@model CreateFertilizerHistoryRequest
+
+@{
+    Model.ActionRequest.Throw = new ThrowActionRequest(Guid.Empty, 0);
+}
+
+<div class="form-floating mb-7 row justify-content-center">
+
+    <div class="col-lg-6 col-md-12">
+        <label for="FieldId">Tarla</label>
+        Tarla Adına göre filtreleme yapılacak.
+    </div>
+
+</div>
+
+<div class="form-floating mb-7 row justify-content-center">
+
+    <div class="col-lg-6 col-md-12">
+        <label for="Amount">Miktar</label>
+        @Html.TextBoxFor(w => w.ActionRequest.Throw!.Amount, new { @class = "form-control", @id = "Amount", type = "number" })
+    </div>
+
+</div>

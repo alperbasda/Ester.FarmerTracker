@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".template.config\**" />
+    <Compile Remove="Amqp\**" />
+    <Compile Remove="Constants\**" />
+    <EmbeddedResource Remove=".template.config\**" />
+    <EmbeddedResource Remove="Amqp\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <None Remove=".template.config\**" />
+    <None Remove="Amqp\**" />
+    <None Remove="Constants\**" />
+  </ItemGroup>
+
+</Project>

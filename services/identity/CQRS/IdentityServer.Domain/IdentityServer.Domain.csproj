@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".template.config\**" />
+    <Compile Remove="Configurations\**" />
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove=".template.config\**" />
+    <EmbeddedResource Remove="Configurations\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove=".template.config\**" />
+    <None Remove="Configurations\**" />
+    <None Remove="Enums\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Core.Persistence" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Base\" />
+    <Folder Include="Entities\" />
+    <Folder Include="MongoEntities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\IdentityServer.Common\IdentityServer.Common.csproj" />
+  </ItemGroup>
+
+  
+</Project>
