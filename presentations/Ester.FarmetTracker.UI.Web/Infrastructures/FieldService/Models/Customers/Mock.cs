@@ -21,6 +21,8 @@ public class MockCustomer
     public string PhoneNumber { get; set; }
 
     public string MailAddress { get; set; }
+    
+    public decimal FieldsSquereMeterSum { get; set; }
 
     public int CityPlate { get; set; }
 

@@ -12,7 +12,7 @@ public class InternalApiDelegateHandler : DelegatingHandler
         _httpContextAccessor = httpContextAccessor;
     }
 
-    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var headers = _httpContextAccessor.HttpContext?.Request.Headers;
         if (headers != null)
@@ -23,6 +23,6 @@ public class InternalApiDelegateHandler : DelegatingHandler
             }
         }
 
-        return base.SendAsync(request, cancellationToken);
+        return await base.SendAsync(request, cancellationToken);
     }
 }

@@ -24,7 +24,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.CityPlate);
         builder.Property(x => x.City);
         builder.Property(x => x.Address);
-
+        builder.Property(x => x.FieldsSquereMeterSum);
+        
 
 
         builder.Property(x => x.CreatedTime);

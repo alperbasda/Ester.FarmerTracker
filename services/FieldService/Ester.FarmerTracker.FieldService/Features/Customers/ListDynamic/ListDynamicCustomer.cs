@@ -21,7 +21,25 @@ public class ListDynamicCustomerCommand : BaseDynamicRequest, IServiceRequest<Li
 
 }
 
-public record ListDynamicCustomerResponse(Guid Id, Guid? SalesRepresantativeUserId, string? SalesRepresantativeUserName, long IdentityNumber, string Name, string Surname, string PhoneNumber, string MailAddress, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
+public class ListDynamicCustomerResponse
+{
+    public Guid Id { get; set; }
+    public Guid? SalesRepresantativeUserId { get; set; }
+    public string? SalesRepresantativeUserName { get; set; }
+    public long IdentityNumber { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public string PhoneNumber { get; set; }
+    public string MailAddress { get; set; }
+    public int CityPlate { get; set; }
+    public string City { get; set; }
+    public string Address { get; set; }
+    public decimal FieldsSquereMeterSum { get; set; }
+    public string FullName { get; set; }
+    public DateTime CreatedTime { get; set; }
+    public DateTime UpdatedTime { get; set; }
+}
+
 
 public class ListDynamicCustomerCommandHandler(CustomerBusinessRules _customerBusinessRules, ICustomerRepository _repository, IMapper _mapper) : IServiceRequestHandler<ListDynamicCustomerCommand, ListModel<ListDynamicCustomerResponse>>
 {
@@ -30,7 +48,8 @@ public class ListDynamicCustomerCommandHandler(CustomerBusinessRules _customerBu
     {
         var data = await _repository.ListDynamicAsync(request.DynamicQuery,
                                                       predicate: w => _customerBusinessRules.IsUserAdmin() ||
-                                                      w.SalesRepresantativeUserId == _customerBusinessRules.GetUserId(),
+                                                      w.SalesRepresantativeUserId == _customerBusinessRules.GetUserId() ||
+                                                      w.Id == _customerBusinessRules.GetUserId(),
                                                       size: request.PageRequest.PageSize, index: request.PageRequest.PageIndex, enableTracking: false, cancellationToken: cancellationToken);
 
 

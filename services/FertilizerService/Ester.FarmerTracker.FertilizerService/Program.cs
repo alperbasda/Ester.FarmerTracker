@@ -4,6 +4,8 @@ using Ester.FarmerTracker.FertilizerService.Features._extensions;
 using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base._extensions;
 using Ester.FarmerTracker.FertilizerService.Features.Fertilizers._base._extensions;
 using Ester.FarmerTracker.FertilizerService.Features.KeepAlives.Alive;
+using Ester.FarmerTracker.FertilizerService.Infrastructures._extensions;
+using Ester.FarmerTracker.FertilizerService.Infrastructures._settings;
 using Ester.FarmetTracker.Common.Extensions;
 using Ester.FarmetTracker.Common.Middlewares;
 using Ester.FarmetTracker.Common.Settings;
@@ -48,6 +50,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var cacheSettings = builder.Services.AddSettings<CacheSettings>(builder.Configuration);
 var dbSettings = builder.Services.AddSettings<MongoSettings>(builder.Configuration);
+var endpoints = builder.Services.AddSettings<ExternalServiceEndpoints>(builder.Configuration);
 _ = builder.Services.AddSettings<JwtOptions>(builder.Configuration);
 
 var asm = Assembly.GetExecutingAssembly();
@@ -60,6 +63,7 @@ builder.Services
     .AddMediatRService(Assembly.GetExecutingAssembly())
     .AddExceptionHandler(builder.Environment)
     .AddBusinessRules()
+    .AddHttpClients(endpoints)
     .AddContext(dbSettings);
 
 var app = builder.Build();

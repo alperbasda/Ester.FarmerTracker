@@ -15,7 +15,6 @@ namespace Ester.FarmerTracker.FertilizerService.Features.Fertilizers.ListDynamic
 
 public class ListDynamicFertilizerCommand : BaseDynamicRequest, IServiceRequest<ListModel<ListDynamicFertilizerResponse>>
 {
-
 }
 
 public record ListDynamicFertilizerResponse(Guid Id, Guid UserId, string UserFullName, string SerialNumber, decimal TotalAmount, decimal RemainingAmount, FertilizerStatus Status, DateTime ExpirationTime, DateTime CreatedTime, DateTime UpdatedTime);

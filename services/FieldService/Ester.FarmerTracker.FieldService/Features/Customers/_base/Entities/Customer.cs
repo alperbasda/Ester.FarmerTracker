@@ -25,5 +25,7 @@ public class Customer : Entity
 
     public string Address { get; set; } = default!;
 
+    public decimal FieldsSquereMeterSum { get; set; }
+
     public ICollection<Field> Fields { get; set; } = [];
 }

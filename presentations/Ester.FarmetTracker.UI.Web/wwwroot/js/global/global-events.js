@@ -69,14 +69,24 @@
 
         var grouped = groupBy($('[data-fill-controller]').toArray(), w => $(w).attr('data-fill-controller'));
         grouped.forEach((item, key) => {
-            post("/" + key + "/getnames",
+
+            var service = $(item[0]).attr('data-service');
+            var filterProp = $(item[0]).attr('data-filter-prop');
+            var showProp = $(item[0]).attr('data-filter-show');
+            
+            post("/dropdown/getdatabyids",
                 {
-                    ids: item.map(q => $(q).attr('data-fill-ref'))
+                    ids: item.map(q => $(q).attr('data-fill-ref')),
+                    endpoint: key,
+                    service: service,
+                    filterProp: filterProp,
+                    showProp: showProp
                 },
                 function (response) {
-                    for (index in response) {
-                     
-                        $('[data-fill-ref="' + response[index].id.toUpperCase() + '"]').html(response[index].text);
+                    
+                    var datas = JSON.parse(response);
+                    for (index in datas) {
+                        $('[data-fill-ref="' + datas[index].id.toUpperCase() + '"]').html(datas[index].text);
                     }
                 });
         });
@@ -85,27 +95,34 @@
     setDynamicDropdowns: function () {
         $('[data-dynamic-for]').each(function (index, item) {
             var url = $(item).attr('data-dynamic-for');
+
             if (url && url.length > 0) {
 
+                var service = $(item).attr('data-service');
                 var qsParam = $(item).attr('data-qs-param');
+                var filterProp = $(item).attr('data-prop');
+                var showProp = $(item).attr('data-show-prop');
                 if (qsParam == undefined) {
                     qsParam = "";
                 }
 
                 pageEvents.setPartialQueryString(url, qsParam.split(','), function (urlWithQs) {
+
                     $(item).select2({
 
                         //if item has parent
                         dropdownParent: $(item).attr('data-parent'),
 
                         ajax: {
-                            url: getBaseUrl() + "/" + urlWithQs,
+                            url: getBaseUrl() + "/dropdown/getdata",
                             dataType: 'json',
                             data: function (params) {
                                 var query = {
                                     searchterm: params.term,
-                                    clientId: $('#ClientId').val(),
-
+                                    endpoint: url,
+                                    service: service,
+                                    filterProp: filterProp,
+                                    showProp: showProp
                                 };
 
                                 // Query parameters will be ?searchterm=[term]
@@ -113,11 +130,11 @@
                             },
                             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
                             processResults: function (data) {
-
+                                var parsedData = JSON.parse(data);
                                 // Transforms the top-level key of the response object from 'items' to 'results'
                                 return {
 
-                                    results: data.map(function (value, label) {
+                                    results: parsedData.map(function (value, label) {
 
 
                                         return {
@@ -144,9 +161,10 @@
 
 
                     });
-
                     $(item).removeAttr('data-qs-param');
                     $(item).removeAttr('data-parent');
+                    $(item).removeAttr('data-ep');
+                    $(item).removeAttr('data-service');
                 });
 
 

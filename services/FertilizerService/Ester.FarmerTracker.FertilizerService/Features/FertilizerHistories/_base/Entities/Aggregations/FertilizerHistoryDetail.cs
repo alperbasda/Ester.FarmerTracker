@@ -19,6 +19,5 @@ public class LossActionFertilizerHistoryDetail
 public class ThrowActionFertilizerHistoryDetail
 {
     public Guid FieldId { get; set; }
-    public Guid HarvestId { get; set; }
     public decimal Amount { get; set; }
 }

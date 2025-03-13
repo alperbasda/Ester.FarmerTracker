@@ -1,0 +1,48 @@
+﻿@using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.Harvests
+
+@model CreateHarvestRequest
+
+<div class="card w-100">
+    <!--begin:Card Header-->
+    <div class="card-header">
+        <!--begin:Card Title-->
+        <div class="card-title">
+            <!--begin::Breadcrumb-->
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-muted">
+                    Tarlaya Ürün Ek
+                </li>
+                <!--end::Item-->
+            </ul>
+            <!--end::Breadcrumb-->
+        </div>
+        <!--end:Card Title-->
+    </div>
+    <!--end:Card Header-->
+    <!--begin::Card Body container-->
+    <div class="card-body">
+        <form asp-controller="Harvest" asp-action="Create" method="post">
+            <input type="hidden" value="@ViewData["Field"]" name="FieldId" />
+
+            <div class="form-floating mb-7 row justify-content-center">
+                <div class="col-lg-6 col-md-12">
+                    <label for="CropId">Ürün Seçin</label>
+                    <input type="hidden" name="CropName" id="crop-name" />
+                    <select class="form-control form-control-sm search_box" id="crop-selector" data-show-prop="Name" data-dynamic-for="Crops" data-service="field" data-prop="Name" name="CropId">
+                    </select>
+                </div>
+            </div>
+
+            <div class=" pt-5 text-center">
+                <button class=" btn btn-primary" type="submit">
+                    Kaydet
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+    <!--end::Card Body container-->
+
+</div>

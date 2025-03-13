@@ -24,12 +24,19 @@ public class UpdateFieldCommandHandler(FieldBusinessRules _fieldBusinessRules, I
 
         _fieldBusinessRules.ThrowExceptionIfDataNull(data);
         await _fieldBusinessRules.ThrowExceptionIfLoginUserNotWriteAccessToField(data!.CustomerId);
+        
+        if (request.SquareMeter != data.SquareMeter)
+        {
+            await _fieldBusinessRules.UpdateCustomerFieldsSquareMeters(data.CustomerId);
+        }
 
         _mapper.Map(request, data);
         data.CurrentCropName = data.CurrentCropName;
         data.CurrentTotalFertilizerAmount = data.CurrentTotalFertilizerAmount;
 
         await _repository.UpdateAsync(data!);
+        
+            
 
         return Response<UpdateFieldResponse>.Success(_mapper.Map<UpdateFieldResponse>(data), HttpStatusCode.OK);
     }

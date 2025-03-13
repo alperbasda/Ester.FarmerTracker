@@ -19,6 +19,6 @@ public class TokenParameters
 
     public string AccessToken { get; set; } = default!;
 
-    public List<UserRole> Roles { get; set; } = [UserRole.None, UserRole.Representative];
+    public List<UserRole> Roles { get; set; } = [UserRole.None, UserRole.Admin];
 }
 

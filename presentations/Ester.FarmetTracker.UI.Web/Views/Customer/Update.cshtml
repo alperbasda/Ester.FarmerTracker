@@ -63,18 +63,35 @@
             <div id="kt_app_content" class="app-content flex-column-fluid">
                 <form asp-controller="Customer" asp-action="Update" method="post">
                     @Html.HiddenFor(w => w.Id)
+                    @Html.HiddenFor(w => w.FieldsSquereMeterSum)
                     @if (tokenParameters!.Roles.Contains(UserRole.Admin))
                     {
                         <div class="form-floating mb-7 row justify-content-center">
 
                             <div class="col-lg-6 col-md-12">
                                 <label for="CustomerId">Temsilci</label>
-                                Admin de satış temsilcisi seç.
+                                <select class="form-control form-control-sm search_box" data-show-prop="FullName" data-dynamic-for="Users" data-service="identity" data-prop="FirstName" name="CustomerId">
+
+                                    @if (Model.SalesRepresantativeUserId.HasValue)
+                                    {
+                                        <option selected value="@Model.SalesRepresantativeUserId.Value"
+                                                data-service="identity" data-filter-prop="Name" data-filter-show="FullName"
+                                                data-fill-controller="Users"
+                                                data-fill-ref="@(Model.SalesRepresantativeUserId.Value.ToString().ToUpper())">
+                                        </option>
+                                    }
+
+
+                                </select>
                             </div>
                         </div>
                     }
-                    <input type="hidden" name="SalesRepresantativeUserId" value="@Model.SalesRepresantativeUserId" />
-                    <input type="hidden" name="SalesRepresantativeUserName" value="@Model.SalesRepresantativeUserName" />
+                    else
+                    {
+                        <input type="hidden" name="SalesRepresantativeUserId" value="@Model.SalesRepresantativeUserId" />
+                        <input type="hidden" name="SalesRepresantativeUserName" value="@Model.SalesRepresantativeUserName" />
+                    }
+
                     <div class="form-floating mb-7 row justify-content-center">
                         <div class="col-lg-6 col-md-12">
                             <label for="IdentityNumber">T.C Kimlik No</label>

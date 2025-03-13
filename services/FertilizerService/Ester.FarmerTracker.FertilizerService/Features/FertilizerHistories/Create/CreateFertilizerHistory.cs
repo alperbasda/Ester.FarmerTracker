@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
-using Ester.FarmetTracker.Common.ApiResults;
 using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base.BusinessRules;
 using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base.Entities;
+using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base.Entities.Enums;
 using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base.Repositories;
+using Ester.FarmetTracker.Common.ApiResults;
+using Ester.FarmetTracker.Common.Filters;
 using Ester.FarmetTracker.Common.MediatR;
 using Ester.FarmetTracker.Common.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Ester.FarmetTracker.Common.Filters;
-using Ester.FarmetTracker.Common;
-using Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories._base.Entities.Enums;
 
 namespace Ester.FarmerTracker.FertilizerService.Features.FertilizerHistories.Create;
 
-//TODO Alper Her Detaya göre farklı aksiyon al.
 public record CreateFertilizerHistoryCommand(Guid FertilizerId, string Description, FertilizerHistoryAction Action, ActionRequest ActionRequest) : IServiceRequest<CreateFertilizerHistoryResponse>;
 
 public record ActionRequest(TransferActionRequest? Transfer, LossActionRequest? Loss, ThrowActionRequest? Throw);
@@ -36,7 +34,14 @@ public class CreateFertilizerHistoryCommandHandler(FertilizerHistoryBusinessRule
 
         _fetilizerHistoryBusinessRules.SetId(data);
 
+        await _fetilizerHistoryBusinessRules.ProcessDetail(request);
+        if (string.IsNullOrEmpty(data.Description))
+        {
+            data.Description = "unknown";
+        }
         await _repository.AddAsync(data);
+
+        
 
         return Response<CreateFertilizerHistoryResponse>.Success(_mapper.Map<CreateFertilizerHistoryResponse>(data), HttpStatusCode.OK);
     }

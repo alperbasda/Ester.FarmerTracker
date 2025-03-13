@@ -41,7 +41,6 @@ public class FertilizerHistoryConfiguration : IEntityTypeConfiguration<Fertilize
             feature.HasElementName("throwdetail");
             feature.Property(w => w.Amount).HasElementName("amount");
             feature.Property(w => w.FieldId).HasElementName("fieldId");
-            feature.Property(w => w.HarvestId).HasElementName("harvestId");
         });
 
         builder.HasIndex(w => w.FertilizerId);

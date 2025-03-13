@@ -5,4 +5,5 @@ namespace Ester.FarmerTracker.FertilizerService.Features.Fertilizers._base.Busin
 
 public class FertilizerBusinessRules(TokenParameters tokenParameters) : BaseBusinessRules(tokenParameters)
 {
+    
 }

@@ -15,7 +15,7 @@ public class HarvestConfiguration : IEntityTypeConfiguration<Harvest>
         builder.Property(x => x.Id).ValueGeneratedNever();
 
         builder.Property(x => x.FieldId);
-        builder.Property(x => x.CropId).IsRequired(false); ;
+        builder.Property(x => x.CropId);
         builder.Property(x => x.HarvestTime).IsRequired(false);
         
         builder.Property(x => x.CreatedTime);

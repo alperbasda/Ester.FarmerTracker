@@ -1,10 +1,12 @@
 ﻿@using Ester.FarmetTracker.Common
 @using Ester.FarmetTracker.Common.Settings
+@using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.Harvests
 @using Ester.FarmetTracker.UI.Web.Infrastructures.FieldService.Models.Fields
 
 @{
     ViewData["Title"] = "Tarla Düzenle";
     var tokenParameters = ViewData["TokenParameters"] as TokenParameters;
+    var harvest = ViewData["Harvest"]! as GetByIdHarvestResponse;
 }
 
 @model GetByIdFieldResponse
@@ -62,18 +64,26 @@
             <!--begin::Header-->
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bolder text-dark mb-1">Tarla Bilgileri</span>
+                    <span class="card-label font-weight-bolder text-dark mb-1">@Model.Name</span>
                 </h3>
                 <div class="card-toolbar">
-                    <a class="btn btn-light-warning btn-sm p-3 m-3" href="#/">
-                        Ekin
-                    </a>
-                    <a class="btn btn-light-primary btn-sm p-3 m-3" href="#/">
-                        Gübre At
-                    </a>
-                    <a class="btn btn-light-success btn-sm mr-1" href="#/">
-                        Hasat Et
-                    </a>
+                    @if (harvest!.Id == Guid.Empty || harvest.HarvestTime.HasValue)
+                    {
+                        <a href="#/" class="kt_drawer_harvest btn btn-light-warning btn-sm p-3 m-3" data-field="@Model.Id" data-action="crop">
+                            Ekin Ek
+                        </a>
+                    }
+                    else if (!harvest.HarvestTime.HasValue)
+                    {
+                        <a class="kt_drawer_harvest btn btn-light-primary btn-sm p-3 m-3" href="#/" data-field="@Model.Id" data-action="fertilizer" data-customer="@Model.CustomerId">
+                            Gübre At
+                        </a>
+                        <a class="btn btn-light-success btn-sm mr-1" href="#/" data-field="@Model.Id" data-action="harvest">
+                            Hasat Et
+                        </a>
+                    }
+
+
                 </div>
             </div>
             <!--end::Header-->
@@ -92,10 +102,10 @@
                                     <i class="flaticon-user icon-2x text-muted font-weight-bold"></i>
                                 </span>
                                 <div class="d-flex flex-column text-dark-75">
-                                    <span class="font-weight-bolder font-size-sm">Ad</span>
+                                    <span class="font-weight-bolder font-size-sm">Sahibi</span>
                                     <span class="font-weight-bolder font-size-h5">
                                         <span class="text-dark-50 font-weight-bold">
-                                            <b>@Model.Name</b>
+                                            <b data-fill-controller="Customers" data-fill-ref="@Model.CustomerId.ToString().ToUpper()" data-service="field" data-filter-prop="Name" data-filter-show="FullName"> - </b>
                                         </span>
                                     </span>
                                 </div>
@@ -131,7 +141,7 @@
                                 </div>
                             </div>
                             <!--end: Item-->
-                            
+
                         </div>
 
                     </div>
@@ -151,29 +161,15 @@
                     <span class="card-label font-weight-bolder text-dark mb-1">Tarla Bilgilerini Güncelle</span>
                 </h3>
                 <div class="card-toolbar">
-                   
                 </div>
             </div>
             <!--end::Header-->
             <!--begin::Body-->
             <div class="card-body pt-2">
-                
+
                 <form asp-controller="Field" asp-action="Update" method="post">
                     @Html.HiddenFor(w => w.Id)
-                    @if (tokenParameters!.Roles.Contains(UserRole.Admin) || tokenParameters!.Roles.Contains(UserRole.Representative))
-                    {
-                        <div class="form-floating mb-7 row justify-content-center">
-
-                            <div class="col-lg-6 col-md-12">
-                                <label for="CustomerId">Temsilci</label>
-                                Admin ve temsilcide müşteri seç.
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <input type="hidden" name="CustomerId" value="@tokenParameters.UserId" />
-                    }
+                    @Html.HiddenFor(w => w.CustomerId)
                     <div class="form-floating mb-7 row justify-content-center">
                         <div class="col-lg-6 col-md-12">
                             <label for="FieldId">Tarla Adı</label>
@@ -239,3 +235,17 @@
 
 </div>
 
+<div class="kt_drawer bg-white"
+     data-kt-drawer="true"
+     data-kt-drawer-activate="true"
+     data-kt-drawer-toggle=".kt_drawer_harvest"
+     data-kt-drawer-close=".kt_drawer_close"
+     data-kt-drawer-width="50%"
+     data-kt-drawer-direction="start">
+    <div class="d-flex flex-row flex-row-fluid">
+        <div id="harvest-content" class="d-flex flex-row" style="width:100%!important">
+            Yükleniyor...
+        </div>
+    </div>
+
+</div>

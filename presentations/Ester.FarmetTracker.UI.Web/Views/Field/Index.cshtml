@@ -169,7 +169,7 @@
                                 @foreach (var item in Model.Items)
                                 {
                                     <tr class="item_wrapper">
-                                        <td>@item.CustomerId</td>
+                                        <td data-fill-controller="Customers" data-fill-ref="@item.CustomerId.ToString().ToUpper()" data-service="field" data-filter-prop="Name" data-filter-show="FullName"> - </td>
                                         <td>@item.Name</td>
                                         <td>@item.Coordinate</td>
                                         <td>@item.SquareMeter</td>

@@ -1,6 +1,8 @@
 ﻿using Ester.FarmerTracker.FieldService.Features._base;
 using Ester.FarmerTracker.FieldService.Features.Customers._base.Repositories;
 using Ester.FarmerTracker.FieldService.Features.Fields._base.Repositories;
+using Ester.FarmerTracker.FieldService.Features.Harvests._base.Entities;
+using Ester.FarmerTracker.FieldService.Features.Harvests.Create;
 using Ester.FarmetTracker.Common.Exceptions;
 using Ester.FarmetTracker.Common.Settings;
 
@@ -31,5 +33,32 @@ public class HarvestBusinessRules(TokenParameters tokenParameters, ICustomerRepo
                 );
         }
         return returnList;
+    }
+
+    public async Task ClearFieldIfHarvestDateNotNull(Harvest harvest)
+    {
+        var field = await fieldRepository.GetAsync(w => w.Id == harvest.FieldId);
+        if (field == null)
+        {
+            throw new NotFoundException("Tarla Bulunamadı.");
+        }
+
+
+        field.CurrentCropName = "";
+        field.CurrentTotalFertilizerAmount = 0;
+        await fieldRepository.UpdateAsync(field);
+    }
+
+    public async Task AddFieldData(CreateHarvestCommand harvest)
+    {
+        var field = await fieldRepository.GetAsync(w => w.Id == harvest.FieldId);
+        if (field == null)
+        {
+            throw new NotFoundException("Tarla Bulunamadı.");
+        }
+
+        field.CurrentCropName = harvest.CropName;
+        field.CurrentTotalFertilizerAmount = 0;
+        await fieldRepository.UpdateAsync(field);
     }
 }

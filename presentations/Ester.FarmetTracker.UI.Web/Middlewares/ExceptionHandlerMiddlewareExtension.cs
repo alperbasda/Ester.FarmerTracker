@@ -55,7 +55,7 @@ public class ExceptionHandlerMiddleware
             _loggerService.Log($"Exception: {error.Message}");
             if (IsAjaxRequest(context.Request))
             {
-                await context.Response.WriteAsJsonAsync(new Response<string>() { Errors = [error.Message, error.StackTrace ?? ""], Data = null });
+                await context.Response.WriteAsJsonAsync(new Response<string>() { Errors = [error.Message], Data = null });
             }
             else
             {

@@ -6,12 +6,15 @@ using Ester.FarmetTracker.UI.Web.Extensions.RedirectExt;
 using Ester.FarmetTracker.UI.Web.Infrastructures._base.Models;
 using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService;
 using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.Fertilizers;
+using Ester.FarmetTracker.UI.Web.Infrastructures.FieldService;
+using Ester.FarmetTracker.UI.Web.Infrastructures.IdentityService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Ester.FarmetTracker.UI.Web.Controllers;
 
 [Route("fertilizer")]
-public class FertilizerController(IFertilizerClient fertilizerClient,TokenParameters parameters) : BaseController
+public class FertilizerController(IFertilizerClient fertilizerClient, TokenParameters parameters) : BaseController
 {
     [HttpGet("index")]
     public async Task<IActionResult> Index()
@@ -61,4 +64,5 @@ public class FertilizerController(IFertilizerClient fertilizerClient,TokenParame
         await fertilizerClient.DeleteAsync(endpoint: $"/fertilizers/{id}");
         return Json("OK");
     }
+
 }

@@ -71,6 +71,9 @@ namespace Ester.FarmerTracker.FieldService.Migrations
                     b.Property<DateTime?>("DeletedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("FieldsSquereMeterSum")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<long>("IdentityNumber")
                         .HasColumnType("bigint");
 

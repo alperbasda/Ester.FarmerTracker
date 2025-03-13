@@ -10,9 +10,9 @@ public class Harvest : Entity
      
     public virtual Field Field { get; set; } = default!;
 
-    public Guid? CropId { get; set; }
+    public Guid CropId { get; set; }
 
-    public virtual Crop? Crop { get; set; }
+    public virtual Crop Crop { get; set; }
 
     public DateTime? HarvestTime { get; set; }
 

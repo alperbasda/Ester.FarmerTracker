@@ -14,7 +14,8 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<Customer, CreateCustomerResponse>();
-        CreateMap<CreateCustomerCommand, Customer>();
+        CreateMap<CreateCustomerCommand, Customer>()
+            .ForMember(w => w.FieldsSquereMeterSum, q => q.MapFrom(c => 0));
 
         CreateMap<Customer, UpdateCustomerResponse>();
         CreateMap<UpdateCustomerCommand, Customer>();
@@ -25,7 +26,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Customer, GetByIdCustomerResponse>();
 
 
-        CreateMap<Customer, ListDynamicCustomerResponse>();
+        CreateMap<Customer, ListDynamicCustomerResponse>()
+            .ForMember(w => w.FullName, q => q.MapFrom(c => $"{c.Name} {c.Surname}"));
 
         CreateMap<Paginate<Customer>, ListModel<ListDynamicCustomerResponse>>();
     }

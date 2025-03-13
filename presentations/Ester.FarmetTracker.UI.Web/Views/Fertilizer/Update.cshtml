@@ -64,8 +64,8 @@
             <div id="kt_app_content" class="app-content flex-column-fluid">
                 <form asp-controller="Fertilizer" asp-action="Update" method="post">
                     @Html.HiddenFor(w => w.Id, new { @class = "form-control", @id = "Id" })
-                    <input type="hidden" name="UserId" value="@parameters!.UserId" />
-                    <input type="hidden" name="UserFullName" value="@parameters!.UserName" />
+                    <input type="hidden" name="UserId" value="@Model.UserId" />
+                    <input type="hidden" name="UserFullName" value="@Model.UserFullName" />
 
                     <div class="form-floating mb-7 row justify-content-center">
 
@@ -94,7 +94,7 @@
 
                         <div class="col-lg-6 col-md-12">
                             <label for="ExpirationTime">Son Kullanma Tarihi</label>
-                            @Html.TextBoxFor(w => w.ExpirationTime, new { @class = "form-control", @id = "ExpirationTime", type = "date" })
+                            <input type="date" id="ExpirationTime" name="ExpirationTime" value="@Model.ExpirationTime.ToString("yyyy-MM-dd")" class="form-control">
                         </div>
                     </div>
                     <div class="form-floating mb-7 row justify-content-center">

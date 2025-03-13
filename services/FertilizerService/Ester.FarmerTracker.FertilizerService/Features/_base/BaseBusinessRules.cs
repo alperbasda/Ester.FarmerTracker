@@ -9,7 +9,7 @@ namespace Ester.FarmerTracker.FertilizerService.Features._base;
 public class BaseBusinessRules(TokenParameters tokenParameters)
 {
     private readonly TokenParameters _tokenParameters = tokenParameters;
-    
+
     public void ThrowExceptionIfDataNull(IEntity? entity)
     {
 
@@ -29,4 +29,10 @@ public class BaseBusinessRules(TokenParameters tokenParameters)
     {
         entity.Id = NewId.NextSequentialGuid();
     }
+
+    public Guid GetUserId() => _tokenParameters.UserId;
+
+    public bool IsUserAdmin() => _tokenParameters.Roles.Exists(w => w == UserRole.Admin);
+
+    public bool IsUserRepresantative() => _tokenParameters.Roles.Exists(w => w == UserRole.Representative);
 }

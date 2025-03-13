@@ -25,7 +25,7 @@ public class BaseController : Controller
     {
         if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 299)
             return;
-        var asdf = string.Join("<br/>", response.Errors != null ? response.Errors : []);
-        throw new BusinessException(asdf);
+        var err = string.Join("<br/>", response.Errors != null ? response.Errors : []);
+        throw new BusinessException(err);
     }
 }

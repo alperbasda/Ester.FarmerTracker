@@ -12,9 +12,9 @@ using System.Net;
 
 namespace Ester.FarmerTracker.FieldService.Features.Harvests.Create;
 
-public record CreateHarvestCommand(Guid FieldId, Guid? CropId, DateTime? HarvestTime) : IServiceRequest<CreateHarvestResponse>;
+public record CreateHarvestCommand(Guid FieldId, Guid? CropId, string CropName, DateTime? HarvestTime) : IServiceRequest<CreateHarvestResponse>;
 
-public record CreateHarvestResponse(Guid Id, Guid FieldId, Guid? CropId, DateTime? HarvestTime);
+public record CreateHarvestResponse(Guid Id, Guid FieldId, Guid CropId, DateTime? HarvestTime);
 
 public class CreateHarvestCommandHandler(HarvestBusinessRules _harvestBusinessRules, IHarvestRepository _repository, IMapper _mapper) : IServiceRequestHandler<CreateHarvestCommand, CreateHarvestResponse>
 {
@@ -23,6 +23,8 @@ public class CreateHarvestCommandHandler(HarvestBusinessRules _harvestBusinessRu
         var data = _mapper.Map<Harvest>(request);
 
         await _harvestBusinessRules.ThrowExceptionIfLoginUserNotWriteAccessToField(request.FieldId);
+        await _harvestBusinessRules.AddFieldData(request);
+        _harvestBusinessRules.SetId(data);
         await _repository.AddAsync(data);
 
 
@@ -39,7 +41,7 @@ public static class CreateHarvestEndpointExtension
 
             return (await mediatr.Send(command)).ToResult();
         })
-        .AddEndpointFilter(new AuthorizationFilter())
+        //.AddEndpointFilter(new AuthorizationFilter())
         .AddEndpointFilter<FluentValidationFilter<CreateHarvestCommand>>();
         return group;
     }

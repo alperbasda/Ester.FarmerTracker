@@ -5,4 +5,5 @@ namespace Ester.FarmerTracker.FieldService.Features.Harvests._base.Repositories;
 
 public interface IHarvestRepository : IAsyncRepository<Harvest>
 {
+    Task<Harvest?> GetLastForFieldAsyc(Guid fieldId);
 }

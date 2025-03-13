@@ -25,7 +25,7 @@ public class DeleteFieldCommandHandler(FieldBusinessRules _fieldBusinessRules, I
 
         _fieldBusinessRules.ThrowExceptionIfDataNull(data);
         await _fieldBusinessRules.ThrowExceptionIfLoginUserNotWriteAccessToField(data!.CustomerId);
-
+        await _fieldBusinessRules.UpdateCustomerFieldsSquareMeters(data.CustomerId);
         await _repository.DeleteAsync(data!);
 
         return Response<DeleteFieldResponse>.Success(_mapper.Map<DeleteFieldResponse>(data), HttpStatusCode.OK);

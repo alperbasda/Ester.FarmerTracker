@@ -7,6 +7,7 @@ using Ester.FarmetTracker.UI.Web.Infrastructures.FieldService;
 using Microsoft.AspNetCore.Mvc;
 using Ester.FarmetTracker.UI.Web.Infrastructures._base.Models;
 using Ester.FarmetTracker.Common.Settings;
+using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.Harvests;
 
 namespace Ester.FarmetTracker.UI.Web.Controllers;
 
@@ -64,6 +65,9 @@ public class FieldController(IFieldClient fieldClient, TokenParameters tokenPara
         ViewData["TokenParameters"] = tokenParameters;
         var data = await fieldClient.GetAsync<Response<GetByIdFieldResponse>>(endpoint: $"/fields/{id}");
         ShowErrorIfExists(data);
+        var harvest = await fieldClient.GetAsync<Response<GetByIdHarvestResponse>>(endpoint: $"/harvests/getlast/{id}");
+        ShowErrorIfExists(data);
+        ViewData["Harvest"] = harvest.Data;
         return View(data.Data);
     }
 

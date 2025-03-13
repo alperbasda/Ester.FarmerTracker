@@ -1,11 +1,14 @@
 ﻿using Ester.FarmerTracker.FieldService.Features._base;
 using Ester.FarmerTracker.FieldService.Features.Customers._base.Repositories;
+using Ester.FarmerTracker.FieldService.Features.Customers.Update;
+using Ester.FarmerTracker.FieldService.Features.Customers.UpdateFieldsSquereMeter;
 using Ester.FarmetTracker.Common.Exceptions;
 using Ester.FarmetTracker.Common.Settings;
+using MediatR;
 
 namespace Ester.FarmerTracker.FieldService.Features.Fields._base.BusinessRules;
 
-public class FieldBusinessRules(TokenParameters tokenParameters, ICustomerRepository customerRepository) : BaseBusinessRules(tokenParameters)
+public class FieldBusinessRules(TokenParameters tokenParameters, ICustomerRepository customerRepository, IMediator mediator) : BaseBusinessRules(tokenParameters)
 {
     public async Task ThrowExceptionIfLoginUserNotWriteAccessToField(Guid customerId)
     {
@@ -29,4 +32,10 @@ public class FieldBusinessRules(TokenParameters tokenParameters, ICustomerReposi
         }
         return returnList;
     }
+
+    public async Task UpdateCustomerFieldsSquareMeters(Guid customerId)
+    {
+        await mediator.Send(new UpdateFieldsSquereMeterCommand(customerId));
+    }
+
 }

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Ester.FarmetTracker.UI.Web.Infrastructures._base.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -34,6 +36,19 @@ public class ClientBase
         var responseContent = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<TResponse>(responseContent)!;
     }
+    public async Task<JToken> GetDropdown(BaseDynamicRequest data, string endpoint = "")
+    {
+        var json = JsonConvert.SerializeObject(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"api{endpoint}", content);
+        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var obj = JObject.Parse(responseContent);
+        return obj["data"]!["items"]!;
+    }
+    
 
     public async Task<TResponse> PutAsync<TRequest, TResponse>(TRequest data, string endpoint = "")
     {

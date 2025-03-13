@@ -1,8 +1,10 @@
 ﻿using Ester.FarmetTracker.Common.Models.Responses;
 using Ester.FarmetTracker.UI.Web.Controllers._base;
+using Ester.FarmetTracker.UI.Web.Extensions.RedirectExt;
 using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService;
 using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.FertilizerHistories;
 using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.FertilizerHistories.Enums;
+using Ester.FarmetTracker.UI.Web.Infrastructures.FertilizerService.Models.Fertilizers;
 using Microsoft.AspNetCore.Mvc;
 namespace Ester.FarmetTracker.UI.Web.Controllers;
 
@@ -13,9 +15,13 @@ public class FertilizerHistoryController(IFertilizerClient fertilizerClient) : B
     [HttpPost("create")]
     public async Task<IActionResult> Create(CreateFertilizerHistoryRequest request)
     {
-        var res = await fertilizerClient.PostAsync<CreateFertilizerHistoryRequest, Response<CreateFertilizerHistoryResponse>>(request, endpoint: "/fertilizerhistorys");
-
-        return Json(res);
+        var res = await fertilizerClient.PostAsync<CreateFertilizerHistoryRequest, Response<CreateFertilizerHistoryResponse>>(request, endpoint: "/fertilizerhistories");
+        ShowErrorIfExists(res);
+        if (request.ActionRequest.Throw != null && Request.Headers["X-Requested-With"] != "XMLHttpRequest")
+        {
+            return RedirectToAction("Update", "Field", new { Id = request.ActionRequest.Throw.FieldId }).Success("Gübreleme İşlemi Başarılı");
+        }
+        return Json("OK");
     }
 
     [HttpGet("createpartial")]
@@ -26,7 +32,7 @@ public class FertilizerHistoryController(IFertilizerClient fertilizerClient) : B
     }
 
     [HttpGet("createdetailpartial")]
-    public async Task<IActionResult> CreateDetailPartial(FertilizerHistoryAction type)
+    public IActionResult CreateDetailPartial(FertilizerHistoryAction type)
     {
         var model = new CreateFertilizerHistoryRequest(Guid.Empty, "", type, new ActionRequest());
         switch (type)
@@ -41,5 +47,15 @@ public class FertilizerHistoryController(IFertilizerClient fertilizerClient) : B
             default:
                 return PartialView("Partials/_UnknownAction", model);
         }
+    }
+
+    [HttpGet("throwpartial")]
+    public async Task<IActionResult> ThrowPartial(Guid fieldId, Guid customerId)
+    {
+        var data = await fertilizerClient.GetAsync<Response<List<ListCustomerFertilizerResponse>>>(endpoint: $"/fertilizers/customerfertilizerlist/{customerId}");
+        ViewData["Fertilizers"] = data.Data;
+
+        var model = new CreateFertilizerHistoryRequest(Guid.Empty, "", FertilizerHistoryAction.Throw, new ActionRequest() { Throw = new ThrowActionRequest(fieldId, 0) });
+        return PartialView("Partials/_ThrowActionForField", model);
     }
 }

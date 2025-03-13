@@ -14,7 +14,7 @@ namespace Ester.FarmerTracker.FieldService.Features.Fields.GetById;
 
 public record GetByIdFieldCommand(Guid Id) : IServiceRequest<GetByIdFieldResponse>;
 
-public record GetByIdFieldResponse(Guid Id, Guid CustomerId, string Name, string Coordinate, decimal SquareMeter, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
+public record GetByIdFieldResponse(Guid Id, Guid CustomerId, string Name, string Coordinate, string? CurrentCropName, decimal CurrentTotalFertilizerAmount, decimal SquareMeter, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
 
 public class GetByIdFieldCommandHandler(FieldBusinessRules _fieldBusinessRules, IFieldRepository _repository, IMapper _mapper) : IServiceRequestHandler<GetByIdFieldCommand, GetByIdFieldResponse>
 {

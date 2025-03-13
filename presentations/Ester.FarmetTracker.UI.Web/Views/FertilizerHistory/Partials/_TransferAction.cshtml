@@ -5,12 +5,16 @@
 <div class="form-floating mb-7 row justify-content-center">
     <div class="col-lg-6 col-md-12">
         <label for="GiverId">Veren Kullanıcı</label>
-        Buraya searchable select box gelecek
+        <input type="hidden" name="ActionRequest.Transfer.GiverName" id="giver-name" />
+        <select class="form-control form-control-sm search_box" id="giver" data-show-prop="FullName" data-dynamic-for="Users" data-service="identity" data-prop="FirstName" name="ActionRequest.Transfer.GiverId">
+        </select>
     </div>
 </div>
 <div class="form-floating mb-7 row justify-content-center">
     <div class="col-lg-6 col-md-12">
         <label for="RecipientId">Alan Kullanıcı</label>
-        Buraya searchable select box gelecek
+        <input type="hidden" name="ActionRequest.Transfer.RecipientName" id="recipient-name" />
+        <select class="form-control form-control-sm search_box" id="recipient" data-show-prop="FullName" data-dynamic-for="Users" data-service="identity" data-prop="FirstName" name="ActionRequest.Transfer.RecipientId">
+        </select>
     </div>
 </div>

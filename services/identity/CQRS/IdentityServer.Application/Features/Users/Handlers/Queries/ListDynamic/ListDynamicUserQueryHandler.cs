@@ -29,13 +29,21 @@ public class ListDynamicUserQueryHandler : IRequestHandler<ListDynamicUserQuery,
 
     public async Task<ListModel<ListDynamicUserResponse>> Handle(ListDynamicUserQuery request, CancellationToken cancellationToken)
     {
-        var datas = await _userDal.GetListByDynamicAsync(request.DynamicQuery, size: request.PageRequest.PageSize, index: request.PageRequest.PageIndex, cancellationToken : cancellationToken);
+        try
+        {
+            var datas = await _userDal.GetListByDynamicAsync(request.DynamicQuery, size: request.PageRequest.PageSize, index: request.PageRequest.PageIndex, cancellationToken: cancellationToken);
 
-        //İş Kurallarınızı Burada Çağırabilirsiniz.
+            //İş Kurallarınızı Burada Çağırabilirsiniz.
 
-        var returnData = _mapper.Map<ListModel<ListDynamicUserResponse>>(datas);
-        _userBusinessRules.FillDynamicFilter(returnData, request.DynamicQuery, request.PageRequest);
-        return returnData;
+            var returnData = _mapper.Map<ListModel<ListDynamicUserResponse>>(datas);
+            _userBusinessRules.FillDynamicFilter(returnData, request.DynamicQuery, request.PageRequest);
+            return returnData;
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
 
     }
 }

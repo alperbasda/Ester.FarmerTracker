@@ -1,7 +1,9 @@
 ﻿using Ester.FarmetTracker.Common.Models.Responses;
+using Ester.FarmetTracker.UI.Web.Infrastructures._base.Models;
 using Ester.FarmetTracker.UI.Web.Infrastructures.IdentityService;
 using Ester.FarmetTracker.UI.Web.Infrastructures.IdentityService.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 
 public class IdentityApiClient : IIdentityApiClient
@@ -57,6 +59,19 @@ public class IdentityApiClient : IIdentityApiClient
         var result = JsonConvert.DeserializeObject<Response<TokenResponse>>(apiResponse);
 
         return result;
+    }
+
+    public async Task<JToken> GetDropdown(BaseDynamicRequest data, string endpoint = "")
+    {
+        var json = JsonConvert.SerializeObject(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"{endpoint}", content);
+        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var obj = JObject.Parse(responseContent);
+        return obj["data"]!["items"]!;
     }
 
 

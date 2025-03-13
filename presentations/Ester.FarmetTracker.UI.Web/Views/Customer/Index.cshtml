@@ -93,6 +93,13 @@
                                     </th>
                                     <th>
                                         <b>
+                                            <a data-sort="@nameof(MockCustomer.FieldsSquereMeterSum)" href="#/">
+                                                Toplam Tarla m2 &nbsp;
+                                            </a>
+                                        </b>
+                                    </th>
+                                    <th>
+                                        <b>
                                             <a data-sort="@nameof(MockCustomer.PhoneNumber)" href="#/">
                                                 Telefon &nbsp;
                                             </a>
@@ -153,6 +160,9 @@
                                         <input type="text" class="form-control form-control-sm" name="@nameof(MockCustomer.Surname)" placeholder="Aranacak kelime yazın" value="@filters.FirstOrDefault(w=>w.Field == nameof(MockCustomer.Surname))?.Value" />
                                     </th>
                                     <th>
+                                        <input type="number" class="form-control form-control-sm" name="@nameof(MockCustomer.FieldsSquereMeterSum)" placeholder="Aranacak kelime yazın" value="@filters.FirstOrDefault(w=>w.Field == nameof(MockCustomer.FieldsSquereMeterSum))?.Value" />
+                                    </th>
+                                    <th>
                                         <input type="text" class="form-control form-control-sm" name="@nameof(MockCustomer.PhoneNumber)" placeholder="Aranacak kelime yazın" value="@filters.FirstOrDefault(w=>w.Field == nameof(MockCustomer.PhoneNumber))?.Value" />
                                     </th>
                                     <th>
@@ -183,6 +193,7 @@
                                         <td>@item.IdentityNumber</td>
                                         <td>@item.Name</td>
                                         <td>@item.Surname</td>
+                                        <td>@item.FieldsSquereMeterSum</td>
                                         <td>@item.PhoneNumber</td>
                                         <td>@item.MailAddress</td>
                                         <td>@item.City</td>

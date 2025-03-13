@@ -1,6 +1,7 @@
 ﻿using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.Create;
 using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.DeleteById;
 using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.GetById;
+using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.ListCustomer;
 using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.ListDynamic;
 using Ester.FarmerTracker.FertilizerService.Features.Fertilizers.Update;
 using Ester.FarmetTracker.Common.Filters;
@@ -17,6 +18,7 @@ public static class FertilizerEndpointExtension
             .DeleteFertilizerEndpoint()
             .GetByIdFertilizerEndpoint()
             .ListDynamicFertilizerEndpoint()
+            .ListCustomerFertilizerEndpoint()
             .AddEndpointFilter<FillTokenParameterFilter>();
 
         return app;

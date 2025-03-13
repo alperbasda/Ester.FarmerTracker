@@ -18,14 +18,14 @@ public class ListDynamicFieldCommand : BaseDynamicRequest, IServiceRequest<ListM
 
 }
 
-public record ListDynamicFieldResponse(Guid Id, Guid CustomerId, string Name, string Coordinate, decimal SquareMeter, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
+public record ListDynamicFieldResponse(Guid Id, Guid CustomerId, decimal CurrentTotalFertilizerAmount, string Name, string Coordinate, decimal SquareMeter, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
 
 public class ListDynamicFieldCommandHandler(FieldBusinessRules _fieldBusinessRules, IFieldRepository _repository, IMapper _mapper) : IServiceRequestHandler<ListDynamicFieldCommand, ListModel<ListDynamicFieldResponse>>
 {
 
     public async Task<Response<ListModel<ListDynamicFieldResponse>>> Handle(ListDynamicFieldCommand request, CancellationToken cancellationToken)
     {
-        var customers = await _fieldBusinessRules.GetRepresentiveCustomers();
+       var customers = await _fieldBusinessRules.GetRepresentiveCustomers();
         customers.Add(_fieldBusinessRules.GetUserId());
         var data = await _repository.ListDynamicAsync(request.DynamicQuery,
                                                       predicate: w => _fieldBusinessRules.IsUserAdmin() ||

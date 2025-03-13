@@ -14,7 +14,7 @@ namespace Ester.FarmerTracker.FieldService.Features.Customers.GetById;
 
 public record GetByIdCustomerCommand(Guid Id) : IServiceRequest<GetByIdCustomerResponse>;
 
-public record GetByIdCustomerResponse(Guid Id, Guid? SalesRepresantativeUserId, string? SalesRepresantativeUserName, long IdentityNumber, string Name, string Surname, string PhoneNumber, string MailAddress, int CityPlate, string City, string Address, DateTime CreatedTime, DateTime UpdatedTime);
+public record GetByIdCustomerResponse(Guid Id, Guid? SalesRepresantativeUserId, string? SalesRepresantativeUserName, long IdentityNumber, string Name, string Surname, string PhoneNumber, string MailAddress, int CityPlate, string City, decimal FieldsSquereMeterSum, string Address, DateTime CreatedTime, DateTime UpdatedTime);
 
 public class GetByIdCustomerCommandHandler(CustomerBusinessRules _customerBusinessRules, ICustomerRepository _repository, IMapper _mapper) : IServiceRequestHandler<GetByIdCustomerCommand, GetByIdCustomerResponse>
 {

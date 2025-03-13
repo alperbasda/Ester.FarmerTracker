@@ -26,7 +26,7 @@ public class CreateFieldCommandHandler(FieldBusinessRules _fieldBusinessRules, I
         _fieldBusinessRules.SetId(data);
 
         await _repository.AddAsync(data);
-
+        await _fieldBusinessRules.UpdateCustomerFieldsSquareMeters(data.CustomerId);
         return Response<CreateFieldResponse>.Success(_mapper.Map<CreateFieldResponse>(data), HttpStatusCode.OK);
     }
 }
